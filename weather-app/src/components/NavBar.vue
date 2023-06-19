@@ -2,13 +2,13 @@
 import { ref } from "vue";
 
 const isMenuOpen = ref(false);
-const selectedTab = ref('home');
+const selectedTab = localStorage.getItem('selectedTab') || '/' ;
 
 function toggleMenu() {
   isMenuOpen.value = !isMenuOpen.value;
 }
 function setSelectedTab(value){
-  selectedTab.value = value
+  localStorage.setItem('selectedTab',value)
 }
 </script>
 
@@ -19,8 +19,8 @@ function setSelectedTab(value){
     >
       <a href="https://flowbite.com/" class="flex items-center">
         <img
-          src="https://flowbite.com/docs/images/logo.svg"
-          class="h-8 mr-3"
+          src="/weather.svg"
+          class="h-20 mr-3"
           alt="Flowbite Logo"
         />
         <span
@@ -63,7 +63,7 @@ function setSelectedTab(value){
         >
           <li @click="setSelectedTab('home')">
             <a
-              href="#"
+              href="/"
               :class="['block', 'py-2',' pl-3', 'pr-4', selectedTab === 'home'?'text-white':'text-gray-900', selectedTab === 'home'? 'bg-blue-700':'', 'rounded', 'md:bg-transparent', selectedTab === 'home'?'md:text-blue-700':' text-gray-900', 'md:p-0', 'dark:text-white', 'md:dark:text-blue-500']"
               aria-current="page"
               >Home</a
@@ -71,14 +71,14 @@ function setSelectedTab(value){
           </li>
           <li @click="setSelectedTab('search')">
             <a
-              href="#"
+              href="search"
               :class="['block', 'py-2',' pl-3', 'pr-4', selectedTab === 'search'?'text-white':'text-gray-900', selectedTab === 'search'? 'bg-blue-700':'', 'rounded', 'md:bg-transparent', selectedTab === 'search'?'md:text-blue-700':' text-gray-900', 'md:p-0', 'dark:text-white', 'md:dark:text-blue-500']"
               >Search</a
             >
           </li>
           <li @click="setSelectedTab('forcast')">
             <a
-              href="#"
+              href="forcast"
               :class="['block', 'py-2',' pl-3', 'pr-4', selectedTab === 'forcast'?'text-white':'text-gray-900', selectedTab === 'forcast'? 'bg-blue-700':'', 'rounded', 'md:bg-transparent', selectedTab === 'forcast'?'md:text-blue-700':' text-gray-900', 'md:p-0', 'dark:text-white', 'md:dark:text-blue-500']"
               >Forcast</a
             >
