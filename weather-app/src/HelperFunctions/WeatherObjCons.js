@@ -2,7 +2,7 @@
 const WeatherObjCons = ({temperature,feelsLike, weather, windSpeed, minTemp, maxTemp, name}) => {
     return {
         "temperature":(temperature - 273.15).toFixed(2),
-        "feels-like":feelsLike,
+        "feelslike":feelsLike,
         "weather":weather,
         "windspeed":windSpeed,
         "mintemp":(minTemp-273.15).toFixed(2),

@@ -16,9 +16,9 @@ const getImageSource = () => {
   if (weather_results.value?.weather === "haze") {
     return haze; // Path to the haze image
   } else if (weather_results.value?.weather === "smoke") {
-    return smoke
+    return smoke;
   } else if (weather_results.value?.weather === "overcast clouds") {
-    return overcast
+    return overcast;
   } else {
     return scatterdCloud; // Path to the scattered_cloud image
   }
@@ -57,13 +57,15 @@ async function handleSubmit() {
 
 <template>
   <div
-    class="mt-3 bg-black-300 p-7 md:m-20 transition-all duration-500 border-gray-200 rounded-lg shadow-xl"
-    style="box-shadow: #7F7F7F 0px 1px 18px 1px;"
+    class="mt-3 bg-black-300 p-7 md:m-10 transition-all duration-500 border-gray-200 rounded-lg"
   >
-    <div class="flex items-center flex-col md:flex-row md:justify-between">
-      <h1 class="text-2xl font-bold my-3 md:my-0">{{ CityHeading }}</h1>
+    <div class="flex items-center flex-col md:flex-row">
+      <h1 class="text-2xl font-bold mx-5 my-3 md:my-0">{{ CityHeading }}</h1>
 
-      <form class="flex items-center" @submit.prevent="handleSubmit">
+      <form
+        class="flex items-center flex-1 md:mx-4"
+        @submit.prevent="handleSubmit"
+      >
         <label for="simple-search" class="sr-only">Search</label>
         <div class="relative w-full">
           <div
@@ -118,6 +120,7 @@ async function handleSubmit() {
       <div
         v-if="weather_results"
         class="max-w-sm md:max-w-full my-10 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700"
+        style="box-shadow: #7f7f7f 0px 1px 18px 1px"
       >
         <a href="#">
           <img
