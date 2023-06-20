@@ -2,6 +2,7 @@
 <script setup>
 import { reactive, ref } from "vue";
 import WeatherObjCons from "../HelperFunctions/WeatherObjCons";
+import store from "../store";
 const searchedCity = ref("");
 const NoOfDays = ref("");
 const CityHeading = ref("Searched City");
@@ -43,8 +44,6 @@ async function handleSubmit() {
         const dt = element.dt; // Example timestamp
         const date = new Date(dt * 1000); // Multiply by 1000 to convert from seconds to milliseconds
         const formattedDate = date.toDateString(); // Convert to a human-readable date string
-
-        console.log("Each element is ", element);
         ForcastObject.push(
           WeatherObjCons({
             temperature: element?.main.temp,
@@ -57,9 +56,11 @@ async function handleSubmit() {
           })
         );
       });
-      weatherForcast.splice(0, weatherForcast.length, ...ForcastObject); // Update reactive object
+      store.commit('addForcastData',ForcastObject)
+      store.commit('getDataForDays',NoOfDays.value)
+      console.log("Filtered Values ", store.state.filteredData);
+      // weatherForcast.splice(0, weatherForcast.length, ...ForcastObject); // Update reactive object
     }
-    console.log("Modified One is ", weatherForcast);
   } catch (error) {
     alert(error.response);
     // Handle errors
@@ -157,13 +158,13 @@ async function handleSubmit() {
               <th scope="col" class="px-6 py-3">Feels Like</th>
               <th scope="col" class="px-6 py-3">Max Temp</th>
               <th scope="col" class="px-6 py-3">Min Temp</th>
-              <th scope="col" class="px-6 py-3">Wind</th>
+              <th scope="col" class="px-6 py-3">Wind Speed</th>
               <th scope="col" class="px-6 py-3">Weather </th>
             </tr>
           </thead>
           <tbody>
             <tr
-              v-for="item in weatherForcast"
+              v-for="item in store?.state?.filteredData"
               :key="item"
               class="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
             >
@@ -177,7 +178,7 @@ async function handleSubmit() {
               <td class="px-6 py-4">{{item.feelslike}}</td>
               <td class="px-6 py-4">{{item.maxtemp}}</td>
               <td class="px-6 py-4">{{item.mintemp}}</td>
-              <td class="px-6 py-4">{{item.wind}}</td>
+              <td class="px-6 py-4">{{item.windspeed}}</td>
               <td class="px-6 py-4">{{item.weather}}</td>
             </tr>
           </tbody>

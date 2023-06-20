@@ -25,6 +25,13 @@ const getImageSource = (weather) => {
   }
 };
 
+function removeWeather (itemToRemove){
+  const oldCities = JSON.parse( localStorage.getItem("citiesWeather"))
+  const newCitites = oldCities.filter((item)=>JSON.stringify(item)!== JSON.stringify(itemToRemove))
+  localStorage.setItem("citiesWeather", JSON.stringify(newCitites));
+  setCititesWeather.value = [...newCitites]
+}
+
 async function handleSubmit() {
   CityHeading.value = searchedCity.value;
   try {
@@ -62,7 +69,6 @@ async function handleSubmit() {
 
     setCititesWeather.value = [...cities]
 
-    store.commit("addWeatherData", weather_results.value);
   } catch (error) {
     alert(error.response);
     // Handle errors
@@ -175,6 +181,7 @@ async function handleSubmit() {
               <span class="font-semibold">Wind Speed </span
               >{{ item.windspeed }} m/s
             </h1>
+            <button @click="removeWeather(item)" type="button" class="text-white bg-blue-700 w-full hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-full text-sm px-5 py-2.5 text-center mr-2 mb-2 ">Delete</button>
           </div>
         </div>
       </div>
