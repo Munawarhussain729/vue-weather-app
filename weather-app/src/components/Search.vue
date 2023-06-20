@@ -11,6 +11,7 @@ const searchedCity = ref("");
 const CityHeading = ref("Searched City");
 const weather_results = ref(null);
 const WEATHER_API_KEY = "f31dc2b8b49a27efda7c2d44d41aa637";
+const setCititesWeather = ref(JSON.parse( localStorage.getItem("citiesWeather")) || [])
 
 const getImageSource = (weather) => {
   if (weather === "haze") {
@@ -47,6 +48,20 @@ async function handleSubmit() {
       name: data?.name,
     });
     console.log("Weather Results are ", weather_results.value);
+    let cities = [];
+    const citiesWeatherString = localStorage.getItem("citiesWeather");
+    if (citiesWeatherString) {
+      try {
+        cities = JSON.parse(citiesWeatherString);
+      } catch (error) {
+        console.error("Error parsing JSON:", error);
+      }
+    }
+    cities.push(weather_results.value);
+    localStorage.setItem("citiesWeather", JSON.stringify(cities));
+
+    setCititesWeather.value = [...cities]
+
     store.commit("addWeatherData", weather_results.value);
   } catch (error) {
     alert(error.response);
@@ -57,13 +72,15 @@ async function handleSubmit() {
 
 <template>
   <div
-    class="mt-3 bg-black-300 p-7 md:m-10 transition-all duration-500 border-gray-200 rounded-lg "
+    class="mt-3 bg-black-300 p-7 md:m-10 transition-all duration-500 border-gray-200 rounded-lg"
   >
-    <div class="flex items-center flex-col md:flex-row ">
+    <div class="flex items-center flex-col md:flex-row">
       <h1 class="text-2xl font-bold mx-5 my-3 md:my-0">{{ CityHeading }}</h1>
 
-      <form class="flex items-center flex-1 md:mx-4 my-3" @submit.prevent="handleSubmit">
-
+      <form
+        class="flex items-center flex-1 md:mx-4 my-3"
+        @submit.prevent="handleSubmit"
+      >
         <label for="simple-search" class="sr-only">Search</label>
         <div class="relative w-full">
           <div
@@ -116,7 +133,7 @@ async function handleSubmit() {
     </div>
     <div class="flex justify-center flex-wrap">
       <div
-        v-for="item in store.state.weatherDataList"
+        v-for="item in setCititesWeather"
         :key="item"
         class="item-center flex flex-row transition-all duration-1000 justify-center"
       >
@@ -135,6 +152,11 @@ async function handleSubmit() {
           <div class="p-5 text-center">
             <h5
               class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white"
+            >
+              Location: {{ item.location }}
+            </h5>
+            <h5
+              class="mb-2 text-lg font-semibold tracking-tight text-gray-900 dark:text-white"
             >
               Weather: {{ item.weather }}
             </h5>

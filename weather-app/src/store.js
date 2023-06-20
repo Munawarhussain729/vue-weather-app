@@ -13,7 +13,7 @@ const store = createStore({
     },
     addWeatherData(state, action){
         console.log("Value is ", action);   
-        state.weatherDataList.push(action)
+        state.weatherDataList.unshift(action)
         console.log(state.weatherDataList);
     }
   }
