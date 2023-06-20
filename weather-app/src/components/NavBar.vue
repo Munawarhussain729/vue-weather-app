@@ -17,7 +17,7 @@ function setSelectedTab(value){
     <div
       class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4"
     >
-      <a href="https://flowbite.com/" class="flex items-center">
+      <a href="/" class="flex items-center">
         <img
           src="/weather.svg"
           class="h-20 mr-3"
